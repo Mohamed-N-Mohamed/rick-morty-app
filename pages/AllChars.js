@@ -18,6 +18,8 @@ const AllChars = ({data}) => {
 
   const [allCharacters, setallCharacters] = useState(defaultResults)
 
+  const [search, setSearch] = useState('')
+
   const [nextPage, setNextPage] = useState({
     ...info,
     currentURL: url
@@ -34,21 +36,27 @@ const AllChars = ({data}) => {
     if ( currentURL === url ) return;
 
     const getNextData = async () => {
+    try {
       const url = await fetch(currentURL)
-      const data = await url.json()
+      const data = await url.json() 
 
       setNextPage({
         currentURL,
-        ...data.info,
-        
+        //fix this ------ when fetching a character that doesn't exit it will cause the app to crash. 
+        ...data.info,  
       })
-
       setallCharacters(prev => {
         return [
-          ...prev,
+          // ...prev,
           ...data.results
         ]
       })
+    } catch (error) {
+      alert('Something went wrong')
+      console.log(error);
+      
+    }
+
     }
 
     //fetch next data
@@ -58,8 +66,6 @@ const AllChars = ({data}) => {
 
   //add more characters when button is clicked
   const addMoreCharacters = () => {
- 
-
     setNextPage(prev => {
       return {
         ...prev,
@@ -68,11 +74,39 @@ const AllChars = ({data}) => {
     })
   }
 
+  //search for a character
+
+  const handleCharacterSearch = (e) => {
+    e.preventDefault()
+
+    if(search){
+      setNextPage({
+        currentURL: `https://rickandmortyapi.com/api/character/?name=${search}`
+      })
+    } else {
+      alert('Type a character')
+    }
+
+    
+
+    console.log(search)
+
+  }
+
   return (
     <div className='all-characters text-center p-4'>
       <h2 className='text-2xl tracking-wider font-semibold pt-4'>All Characters</h2>
-      <MultiChars characters={allCharacters}/> 
 
+      <div className='search'>
+      <form className='search-character'>
+       
+        <input type="text" className='' onChange={(e) => setSearch(e.target.value)}/>
+        <button className='' onClick={handleCharacterSearch}>Search for character</button>
+
+      </form>
+    </div>
+
+      <MultiChars characters={allCharacters}/> 
       <div className="button text-2xl">
         <button className='py-4 px-4 rounded bg-black text-white' onClick={addMoreCharacters}>Load More</button>
       </div>
