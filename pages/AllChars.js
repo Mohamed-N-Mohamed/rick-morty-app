@@ -18,8 +18,6 @@ const AllChars = ({data}) => {
 
   const [allCharacters, setallCharacters] = useState(defaultResults)
 
-
-
   const [nextPage, setNextPage] = useState({
     ...info,
     currentURL: url
@@ -28,16 +26,13 @@ const AllChars = ({data}) => {
   console.log(nextPage)
 
 
-
-
   const { currentURL } = nextPage
 
 
-  const [characters, setCharacters] = useState([])
-
-
-
   useEffect(() => {
+
+    if ( currentURL === url ) return;
+
     const getNextData = async () => {
       const url = await fetch(currentURL)
       const data = await url.json()
@@ -61,23 +56,6 @@ const AllChars = ({data}) => {
 
   }, [currentURL])
 
-
-
-
-  //fetch all characters
-  // useEffect(() => {
-  //   const fetchCharacters = async () => {
-  //     const url = await fetch( 'https://rickandmortyapi.com/api/character')
-  //     const data = await url.json()
-  //     //set characters state
-  //     setCharacters(data)    
-  //   }
-
-  //   fetchCharacters()
-
-  // }, [])
-
-
   //add more characters when button is clicked
   const addMoreCharacters = () => {
  
@@ -85,11 +63,9 @@ const AllChars = ({data}) => {
     setNextPage(prev => {
       return {
         ...prev,
-        currentURL: info.next
+        currentURL: nextPage.next
       }
     })
-
-    console.log(nextPage)
   }
 
   return (

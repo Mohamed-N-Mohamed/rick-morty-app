@@ -8,7 +8,7 @@ const MultiChars = ({ characters }) => {
   
   return (
     <div className='character flex flex-col items-center justify-center gap-12 py-8 text-white md:flex-row md:flex-wrap'>
-    {/* {characters.map(({id, name, status, species, location, image}) => (
+    {characters.map(({id, name, status, species, location, image}) => (
       <div className="character-container w-13 bg-black rounded-md" key={id}>
         <div className="card-image ">
           <img src={image} alt="character image"  className='w-30 object-cover'/>
@@ -35,7 +35,7 @@ const MultiChars = ({ characters }) => {
           </div>
       </div>
 
-    ))} */}
+    ))}
 
   </div>
   )
