@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import MultiChars from '../Components/MultiChars';
+import Characters from '../Components/Characters'
 
 const url = 'https://rickandmortyapi.com/api/character'
 
@@ -10,9 +10,14 @@ export async function getServerSideProps(){
     props: {data}
   }
 }
-
-
 const AllChars = ({data}) => {
+
+  //TODO
+  //Add pagination 
+  //Search Characters
+  //Filter charactes 
+
+  
   //characters state
   const {info, results:defaultResults = [] } = data
 
@@ -106,7 +111,7 @@ const AllChars = ({data}) => {
       </form>
     </div>
 
-      <MultiChars characters={allCharacters}/> 
+      <Characters characters={allCharacters}/> 
       <div className="button text-2xl">
         <button className='py-4 px-4 rounded bg-black text-white' onClick={addMoreCharacters}>Load More</button>
       </div>

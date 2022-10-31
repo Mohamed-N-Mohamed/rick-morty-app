@@ -2,56 +2,27 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import Characters from '../Components/Characters'
 import Hero from '../Components/Hero'
-import MultiChars from '../Components/MultiChars'
-
-
 
 export default function Home() {
-
-  //get multiple characters 1, 2, 3,4 
-  const [characters, setCharacters] = useState([])
-  const [randomNumbers, setRandomNumbers] = useState(Math.floor(Math.random() * 10) + 1)
+  //state for multiple charactes
   const [multiChars, setMultiChars] = useState([])
-  const [query, setQuery] = useState('/1,83,20')
 
-
-  //url
-  const [url, setUrl] = useState('https://rickandmortyapi.com/api/character')
+  //url to tet multiple characters
+  const url = 'https://rickandmortyapi.com/api/character/1,183,20'
 
   useEffect(() => {  
     const fetchMultiChars = async ()  => {
-      let data = await fetch(url)
-      const characters = await data.json()
-      //set characters
-      const {info, results } = characters
-      setCharacters(results)
+      let response = await fetch(url)
+      const characterData = await response.json()
+      console.log(characterData);
+      //set characterData
+      setMultiChars(characterData)
       
     }
     //fetch data
     fetchMultiChars()
    
-  }, [url])
-
- 
-
-  //get random numbers from 1 - 5
-  const randomNumber = () => {
-    const random = Math.floor(Math.random() * 10) + 1
-    return random
-  }
-
-  const getMultiCharacter = () => {
-    let temp = characters.filter((char, index) => {
-      if(index > 1 && index < 5){
-       return char
-      }
-    })
-    console.log(temp);
-    setMultiChars(temp);
-  }
-
-
-
+  }, [])
 
   return (
     <div className='Main-content'>
@@ -61,7 +32,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
-      <MultiChars characters={characters}/> 
+      <Characters characters={multiChars}/> 
     </div>
   )
 }
