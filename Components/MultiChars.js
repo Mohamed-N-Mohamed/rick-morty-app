@@ -2,6 +2,7 @@ import React from 'react'
 
 
 const MultiChars = ({ characters }) => {
+  console.log(characters);
   return (
     <div className='character flex flex-col items-center justify-center gap-12 py-8 text-white md:flex-row md:flex-wrap'>
     {characters.map(({id, name, status, species, location, image}) => (

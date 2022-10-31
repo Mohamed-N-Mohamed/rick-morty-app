@@ -8,31 +8,57 @@ import MultiChars from '../Components/MultiChars'
 
 export default function Home() {
 
-
   //get multiple characters 1, 2, 3,4 
-  const [multipleChars, setMultipleChars] = useState([])
-  const [randomNumbers, setRandomNumbers] = useState([])
+  const [characters, setCharacters] = useState([])
+  const [randomNumbers, setRandomNumbers] = useState(Math.floor(Math.random() * 10) + 1)
+  const [multiChars, setMultiChars] = useState(null)
+  console.log(multiChars)
+  const [query, setQuery] = useState('/1,83,20')
+
+  //url
+  const [url, setUrl] = useState('https://rickandmortyapi.com/api/character')
 
   //fetch 3 - 4 characters on load 
   useEffect(() => {  
+    getMultiCharacter()
     const fetchMultiChars = async ()  => {
-      let data = await fetch(`https://rickandmortyapi.com/api/character/1, 10, 20`)
-      console.log(data)
+      let data = await fetch(url)
       const characters = await data.json()
-      console.log(characters)
       //set characters
-      setMultipleChars(characters)
+      const {info, results } = characters
+      setCharacters(results)
     }
     //fetch data
     fetchMultiChars()
+    
+  }, [url])
+
+  useEffect(() => {
+    getMultiCharacter()
+
   }, [])
 
 
   //get random numbers from 1 - 5
   const randomNumber = () => {
-    let random = Array.from({length: 3}, () => Math.floor(Math.random() * 10) + 1).join(',')
-    //set 3 random numbers    
-    setRandomNumbers(String(random)) 
+    const random = Math.floor(Math.random() * 10) + 1
+    return random
+  }
+
+  const getMultiCharacter = () => {
+    let random = characters.filter((character, index) => {
+      if(index > 0 && index <= 3){
+        return [character]
+      }
+     
+    })
+
+  
+
+
+    console.log(random)
+    setMultiChars(random)
+
   }
 
 
@@ -46,7 +72,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
-      <MultiChars characters={multipleChars}/> 
+      <MultiChars characters={multiChars}/> 
     </div>
   )
 }
