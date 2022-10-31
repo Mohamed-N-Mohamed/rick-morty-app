@@ -11,33 +11,28 @@ export default function Home() {
   //get multiple characters 1, 2, 3,4 
   const [characters, setCharacters] = useState([])
   const [randomNumbers, setRandomNumbers] = useState(Math.floor(Math.random() * 10) + 1)
-  const [multiChars, setMultiChars] = useState(null)
-  console.log(multiChars)
+  const [multiChars, setMultiChars] = useState([])
   const [query, setQuery] = useState('/1,83,20')
+
 
   //url
   const [url, setUrl] = useState('https://rickandmortyapi.com/api/character')
 
-  //fetch 3 - 4 characters on load 
   useEffect(() => {  
-    getMultiCharacter()
     const fetchMultiChars = async ()  => {
       let data = await fetch(url)
       const characters = await data.json()
       //set characters
       const {info, results } = characters
       setCharacters(results)
+      
     }
     //fetch data
     fetchMultiChars()
-    
+   
   }, [url])
 
-  useEffect(() => {
-    getMultiCharacter()
-
-  }, [])
-
+ 
 
   //get random numbers from 1 - 5
   const randomNumber = () => {
@@ -46,19 +41,13 @@ export default function Home() {
   }
 
   const getMultiCharacter = () => {
-    let random = characters.filter((character, index) => {
-      if(index > 0 && index <= 3){
-        return [character]
+    let temp = characters.filter((char, index) => {
+      if(index > 1 && index < 5){
+       return char
       }
-     
     })
-
-  
-
-
-    console.log(random)
-    setMultiChars(random)
-
+    console.log(temp);
+    setMultiChars(temp);
   }
 
 
@@ -72,7 +61,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
-      <MultiChars characters={multiChars}/> 
+      <MultiChars characters={characters}/> 
     </div>
   )
 }

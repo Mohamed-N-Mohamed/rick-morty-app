@@ -6,7 +6,7 @@ const MultiChars = ({ characters }) => {
   return (
     <div className='character flex flex-col items-center justify-center gap-12 py-8 text-white md:flex-row md:flex-wrap'>
     {characters.map(({id, name, status, species, location, image}) => (
-      <div className="character-container w-13 bg-black rounded-md">
+      <div className="character-container w-13 bg-black rounded-md" key={id}>
         <div className="card-image ">
           <img src={image} alt="character image"  className='w-30 object-cover'/>
         </div>
@@ -32,7 +32,11 @@ const MultiChars = ({ characters }) => {
           </div>
       </div>
 
-    ))}
+    )).filter((char, index) => {
+      if(index > 1 && index < 5){
+        return char
+      }
+    })}
 
   </div>
   )
